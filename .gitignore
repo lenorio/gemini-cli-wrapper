@@ -1,0 +1,22 @@
+# Dependency directories
+node_modules/
+
+# Local/Temp files
+temp/
+*.log
+*.tmp
+.DS_Store
+
+# HTML Page Dumps / Debug Captures
+*.html
+
+# Saved dialogue memory logs
+convo_*.md
+
+# Editor settings
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
