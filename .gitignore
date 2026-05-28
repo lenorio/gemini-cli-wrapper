@@ -9,6 +9,7 @@ temp/
 
 # HTML Page Dumps / Debug Captures
 *.html
+!index.html
 
 # Saved dialogue memory logs
 convo_*.md
