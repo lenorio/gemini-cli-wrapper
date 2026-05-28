@@ -1,6 +1,6 @@
 # Gemini Local CLI & API Wrapper v2.0.0
 
-[Read in English](README.md) | [Читать на русском](README_RU.md)
+[Read in English](README.md) | [Читать на русском](README_RU.md) | [Документация API](API_DOCS_RU.md)
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=Playwright&logoColor=white)
@@ -104,7 +104,7 @@ gemini-cli
   - thinking (строка, опционально): Режим размышления.
   - formatting (строка, опционально): Формат вывода.
 
-Подробное описание работы API, структуры ответов и примеры для cURL, PowerShell, Python и Node.js находятся в файле [API_DOCS.md](file:///c:/Users/lenor/Documents/Code/gemini-cli-reimagine/API_DOCS.md).
+Подробное описание работы API, структуры ответов и примеры для cURL, PowerShell, Python и Node.js находятся в файле [API_DOCS_RU.md](API_DOCS_RU.md).
 
 ---
 

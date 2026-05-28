@@ -1,6 +1,6 @@
 # Gemini Local CLI & API Wrapper v2.0.0
 
-[Read in English](README.md) | [Читать на русском](README_RU.md)
+[Read in English](README.md) | [Читать на русском](README_RU.md) | [API Documentation](API_DOCS.md)
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=Playwright&logoColor=white)
@@ -104,7 +104,7 @@ The project automatically launches an Express server on port 8000 (if enabled in
   - thinking (string, optional): Reasoning level.
   - formatting (string, optional): Output style format.
 
-For a detailed description of the API structure, response formats, and complete scripts for cURL, PowerShell, Python, and Node.js, see [API_DOCS.md](file:///c:/Users/lenor/Documents/Code/gemini-cli-reimagine/API_DOCS.md).
+For a detailed description of the API structure, response formats, and complete scripts for cURL, PowerShell, Python, and Node.js, see [API_DOCS.md](API_DOCS.md).
 
 ---
 

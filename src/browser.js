@@ -16,27 +16,24 @@ function debugLog(...args) {
   }
 }
 
-/**
- * Configure global debug mode (headful execution to watch actions)
- */
+// Set headful debug mode
 export function setDebugMode(value) {
   debugMode = value;
   console.log(`[Debug] Headful debug mode set to: ${value}`);
 }
 
-// Get standard Windows Chrome/Edge execution channel or paths
+// Chrome/Edge launch options
 function getLaunchOptions() {
   const sessionDir = getSessionDir();
   
-  // Try launching with system-installed Google Chrome first
   const options = {
     userDataDir: sessionDir,
-    channel: 'chrome', // Fallback to 'msedge' if Chrome is not present
-    headless: false,   // Will be set dynamically
+    channel: 'chrome',
+    headless: false,
     viewport: null,
     args: [
       '--start-maximized',
-      '--disable-blink-features=AutomationControlled' // Evasion of bot checks
+      '--disable-blink-features=AutomationControlled' // bot check evasion
     ]
   };
 
@@ -51,11 +48,11 @@ async function launchBrowserContext(headless = true) {
   const proxyConfig = getProxy();
   if (proxyConfig && proxyConfig.server) {
     if (proxyConfig.server.startsWith('socks5://')) {
-      // SOCKS5 proxy! Spin up local HTTP tunnel to route traffic natively
+      // SOCKS5: spin up local HTTP-to-SOCKS5 bridge tunnel
       debugLog(`[Proxy] SOCKS5 proxy detected. Spanning local HTTP-to-SOCKS5 bridge...`);
       try {
         const tunnel = await startLocalProxyTunnel(proxyConfig);
-        activeTunnel = tunnel; // Save so we can close it later
+        activeTunnel = tunnel;
         options.proxy = {
           server: `http://127.0.0.1:${tunnel.port}`
         };
@@ -64,7 +61,7 @@ async function launchBrowserContext(headless = true) {
         console.error(`[Proxy] Failed to initialize local SOCKS5 tunnel: ${tunnelErr.message}`);
       }
     } else {
-      // Standard HTTP proxy: route directly
+      // Standard HTTP proxy
       debugLog(`[Proxy] Launching browser context through HTTP proxy: ${proxyConfig.server}`);
       options.proxy = {
         server: proxyConfig.server
@@ -98,10 +95,7 @@ async function launchBrowserContext(headless = true) {
   }
 }
 
-/**
- * Checks if the user is already logged in by opening Gemini and checking for the prompt box.
- * If not logged in, it will show the headful browser and let the user log in.
- */
+// Check if active session exists and is authenticated
 export async function ensureLogin(force = false) {
   const sessionDir = getSessionDir();
   const sessionExists = fs.existsSync(sessionDir) && fs.readdirSync(sessionDir).length > 0;

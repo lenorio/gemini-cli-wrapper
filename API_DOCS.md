@@ -1,49 +1,49 @@
 # Gemini Local CLI - Express REST API Documentation
 
-Этот инструмент автоматически запускает локальный Express API Server на фоне при старте сессии (если эта опция включена в настройках). Сервер предоставляет простой REST API, с помощью которого можно отправлять запросы в активную фоновую вкладку Gemini из внешних скриптов, программ или средств автоматизации.
+This tool automatically launches a local Express API Server in the background when your session starts (if enabled in settings). The server provides a simple REST API to route requests to your active background Gemini browser tab from external scripts, programs, or automation tools.
 
 ---
 
-## Настройки и порт
+## Configuration & Port
 
-- Порт по умолчанию: 8000 (можно изменить через команду /settings в чате).
-- Адрес запроса: POST http://localhost:8000/ask
-- Переключатель сервера: API-сервер можно полностью отключить в панели настроек.
+- Default Port: 8000 (can be changed using the /settings command in the TUI).
+- Request Address: POST http://localhost:8000/ask
+- Server Toggle: The API server can be completely disabled in the settings panel.
 
 ---
 
-## Описание эндпоинта
+## Endpoint Details
 
 ### POST /ask
 
-Отправляет промпт в текущую сессию браузера в фоновом режиме, сохраняя историю сообщений и регистрируя диалог в базе данных.
+Sends a prompt to the current browser session in the background, preserving message history and registering the conversation in the database.
 
-#### Заголовки
+#### Headers
 ```http
 Content-Type: application/json
 ```
 
-#### Параметры запроса (JSON body)
+#### Request Parameters (JSON body)
 
-| Параметр | Тип | Обязательно | По умолчанию | Описание |
+| Parameter | Type | Required | Default | Description |
 |:---|:---|:---|:---|:---|
-| prompt | string | Да | - | Текст вашего запроса. Может содержать пути к локальным файлам или ссылки на медиаресурсы. |
-| model | string | Нет | 3.5 Flash | Переключает модель для текущей сессии. Варианты: 3.5 Flash, 3.1 Pro, 3.1 Flash-Lite. |
-| thinking | string/boolean | Нет | Standard | Включает режим глубоких размышлений. Передайте Extended, yes или true для активации. |
-| formatting | string | Нет | CLI | Настраивает формат возвращаемого ответа. Варианты: CLI (разметка терминала), Telegram (безопасный HTML), HTML (чистый HTML). |
+| prompt | string | Yes | - | The query text. Can include local file paths or online media URLs. |
+| model | string | No | 3.5 Flash | Swaps the model for the current session. Options: 3.5 Flash, 3.1 Pro, 3.1 Flash-Lite. |
+| thinking | string/boolean | No | Standard | Enables deep reasoning mode. Pass Extended, yes, or true to activate. |
+| formatting | string | No | CLI | Configures the output format. Options: CLI (ansi terminal markdown), Telegram (HTML-safe Markdown/HTML), HTML (clean raw HTML). |
 
 ---
 
-## Формат ответа
+## Response Format
 
-Сервер возвращает структурированный JSON-объект с результатом выполнения, текущей моделью и ID диалога.
+The server returns a structured JSON object containing the result, active model, and conversation ID.
 
-### Успешный ответ (200 OK)
+### Success Response (200 OK)
 
 ```json
 {
   "success": true,
-  "response": "Тут будет текст ответа модели...",
+  "response": "Model response text goes here...",
   "conversationId": "42a8408bdb71ff0b",
   "model": "3.5 Flash",
   "thinking": "Standard",
@@ -51,25 +51,25 @@ Content-Type: application/json
 }
 ```
 
-### Ответ при ошибке (400 Bad Request или 500 Internal Server Error)
+### Error Response (400 Bad Request or 500 Internal Server Error)
 
 ```json
 {
   "success": false,
-  "error": "Описание возникшей ошибки..."
+  "error": "Error description details..."
 }
 ```
 
 ---
 
-## Примеры использования
+## Usage Examples
 
 ### 1. Windows PowerShell
-Скрипт для отправки POST-запроса из консоли PowerShell:
+Script to send a POST request from the PowerShell console:
 
 ```powershell
 $Body = @{
-    prompt     = "Сократи это предложение до трех слов: код пишется для людей"
+    prompt     = "Summarize this sentence in three words: code is written for people"
     model      = "3.1 Pro"
     thinking   = "Standard"
     formatting = "CLI"
@@ -79,10 +79,10 @@ $Response = Invoke-RestMethod -Uri "http://localhost:8000/ask" -Method Post -Con
 $Response.response
 ```
 
-### 2. cURL (Командная строка CMD / Bash)
+### 2. cURL (Unix Shell / Cmd)
 ```bash
 curl -X POST -H "Content-Type: application/json" \
-  -d '{"prompt": "Привет", "model": "3.5 Flash", "formatting": "CLI"}' \
+  -d '{"prompt": "Hello", "model": "3.5 Flash", "formatting": "CLI"}' \
   http://localhost:8000/ask
 ```
 
@@ -93,14 +93,14 @@ import axios from 'axios';
 async function askGemini() {
   try {
     const res = await axios.post('http://localhost:8000/ask', {
-      prompt: "Объясни замыкания в JS простыми словами",
+      prompt: "Explain closures in JS in simple terms",
       model: "3.5 Flash",
       thinking: "Standard",
       formatting: "CLI"
     });
     console.log(res.data.response);
   } catch (err) {
-    console.error("Ошибка API:", err.response?.data || err.message);
+    console.error("API Error:", err.response?.data || err.message);
   }
 }
 
@@ -113,7 +113,7 @@ import requests
 
 url = "http://localhost:8000/ask"
 payload = {
-    "prompt": "Напиши алгоритм сортировки слиянием на python",
+    "prompt": "Write a merge sort algorithm in python",
     "model": "3.1 Pro",
     "thinking": "Standard",
     "formatting": "CLI"
@@ -125,5 +125,5 @@ data = response.json()
 if data.get("success"):
     print(data["response"])
 else:
-    print("Ошибка:", data.get("error"))
+    print("Error:", data.get("error"))
 ```
